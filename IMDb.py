@@ -16,7 +16,7 @@ Enter your option: '''
 
 prompt = '''
 .............................
-    Enter key to continue
+    Enter *key* to continue
 .............................
 '''
 
@@ -25,6 +25,7 @@ How many suggestions would you like to see?
 Between 1 and {}
 What is your number?
 '''
+
 
 def get_movies(URL):
     # Load page via requests nodule
@@ -39,10 +40,12 @@ def get_movies(URL):
     movies = []
     for item in raw_data:
         movie = dict()
-        movie["title"] = item.find('h3', attrs={"class": "lister-item-header"}).find('a').text.strip()
+        movie["title"] = item.find(
+            'h3', attrs={"class": "lister-item-header"}).find('a').text.strip()
         movie["description"] = item.find_all("p")[1].text.strip()
-        rating = item.find('div', attrs={"class": "lister-item-content"}).find('div', attrs={"class": "inline-block ratings-imdb-rating"})
-        
+        rating = item.find('div', attrs={"class": "lister-item-content"}).find(
+            'div', attrs={"class": "inline-block ratings-imdb-rating"})
+
         # Check if rating is existent
         if rating != None:
             movie["rating"] = rating.text.strip()
@@ -51,6 +54,7 @@ def get_movies(URL):
 
         movies.append(movie)
     return movies
+
 
 def main():
     # Ask User which movie provider he/ she wants to check
@@ -68,10 +72,12 @@ def main():
         printMovies(movies)
         selected = input(prompt).lower()
 
+
 def printMovies(movies):
     # Ask user how many movies he/ she wants to see
     num_movies = int(input(movie_number_prompt.format((len(movies)))))
-    if num_movies > len(movies): num_movies = len(movies)
+    if num_movies > len(movies):
+        num_movies = len(movies)
     os.system('cls')
 
     # Print movies in wanted range
@@ -85,6 +91,7 @@ def printMovies(movies):
                 val = "Not found"
             print(f' {key.capitalize()}: {val}')
         print()
+
 
 if __name__ == "__main__":
     main()
